@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <title>Feedback Form</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Feedback</h1>
+
+    <div class="form-container form__wrapper">
+
+      <form id="feedback-form" action="/feedback/form-processing.php" enctype="multipart/form-data" novalidate>
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="name" class="control-label">Name</label>
+            <input id="name" type="text" name="name" class="form-control" value="" placeholder="Name" minlength="2"
+              maxlength="30" required="required">
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="control-label">Email ID</label>
+            <input id="email" type="email" name="email" required="required" class="form-control" value=""
+              placeholder="Email ID">
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message" class="control-label">Message (atleast 20 charecters)</label>
+          <textarea id="message" name="message" class="form-control" rows="3"
+            placeholder="Message (atleast 20 charecters)" minlength="20" maxlength="500"
+            required="required"></textarea>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group form-attach" data-count="5">
+          <div class="form-attach__label">Files/Images (max <span class="form-attach__count">5</span>)</div>
+          <div class="form-attach__wrapper">
+            <input type="file" name="attach[]" multiple required>
+            <div class="form-attach__description">
+              <div>Click to upload files or Drag and Drop</div>
+              <div class="text-sm">PNG, JPG, GIF (up to 512Kb)</div>
+            </div>
+            <div class="form-attach__items"></div>
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group form-captcha">
+          <img class="form-captcha__image" src="/feedback/captcha/captcha.php" data-src="/feedback/captcha/captcha.php"
+            width="132" height="46" alt="Capta">
+          <div class="form-captcha__refresh">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+              <path fill="currentColor"
+                d="M440.65 12.57l4 82.77A247.16 247.16 0 0 0 255.83 8C134.73 8 33.91 94.92 12.29 209.82A12 12 0 0 0 24.09 224h49.05a12 12 0 0 0 11.67-9.26 175.91 175.91 0 0 1 317-56.94l-101.46-4.86a12 12 0 0 0-12.57 12v47.41a12 12 0 0 0 12 12H500a12 12 0 0 0 12-12V12a12 12 0 0 0-12-12h-47.37a12 12 0 0 0-11.98 12.57zM255.83 432a175.61 175.61 0 0 1-146-77.8l101.8 4.87a12 12 0 0 0 12.57-12v-47.4a12 12 0 0 0-12-12H12a12 12 0 0 0-12 12V500a12 12 0 0 0 12 12h47.35a12 12 0 0 0 12-12.6l-4.15-82.57A247.17 247.17 0 0 0 255.83 504c121.11 0 221.93-86.92 243.55-201.82a12 12 0 0 0-11.8-14.18h-49.05a12 12 0 0 0-11.67 9.26A175.86 175.86 0 0 1 255.83 432z">
+              </path>
+            </svg>
+          </div>
+          <div class="form-group form-captcha__input">
+            <label for="captcha" class="control-label d-none">Code shown in image (Capta)</label>
+            <input type="text" name="captcha" maxlength="6" required="required" id="captcha"
+              class="form-control captcha" placeholder="******" autocomplete="off" value="">
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+
+        <div class="form-group form-agree form-check">
+          <input class="form-check-input" type="checkbox" name="agree" id="agree" required value="true">
+          <label class="form-check-label" for="agree">By clicking the button, I accept the terms of the <a href="#">User Agreement</a> and give my consent to the processing of my personal data</label>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-error form-error_hide">Please Check the form data again.</div>
+
+        <div class="form-submit">
+          <button type="submit">Send a Message</button>
+        </div>
+
+      </form>
+
+      <div class="form-success form-success_hide">
+        <div class="form-success__message">The form has been submitted successfully. Click <button type="button"
+            class="form-success__btn">Here</button> to submit another response.</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/feedback/js/form-processing.js"></script>
+  <script>
+    /*
+      attachMaxItems: 3,
+      attachMaxFileSize: 128,
+      attachExt: ['png', 'jpg']
+    */
+
+    const form = new ItcSubmitForm('form');
+
+    document.querySelector('form').addEventListener('success', (e) => {
+      const el = e.target.closest('.form-container').querySelector('.form-success');
+      el.classList.remove('form-success_hide');
+    });
+
+    document.querySelector('.form-success__btn').addEventListener('click', (e) => {
+      form.reset();
+      e.target.closest('.form-container').querySelector('.form-success').classList.add('form-success_hide');
+    })
+  </script>
+
+</body>
+
+</html>
